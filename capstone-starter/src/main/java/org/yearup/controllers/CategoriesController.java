@@ -1,4 +1,4 @@
-ppackage org.yearup.controllers;
+package org.yearup.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,27 +32,32 @@ public class CategoriesController
 
     @GetMapping
     @PreAuthorize("permitAll()")
-    public List<Category> getAll(){
+    public List<Category> getAll()
+    {
         return categoryDao.getAllCategories();
     }
 
 
     @GetMapping("{id}")
     @PreAuthorize("permitAll()")
-    public Category getById(@PathVariable int id) {
-        Category category = categoryDao.getById(id);
-        try {
-            if (category.getName() != null) {
-                return category;
-            }
-        } catch (Exception ex) {
-            if (category == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "category not found");
-            } else {
-                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
-            }
+    public Category getById(@PathVariable int id)
+    {
+
+        Category category = null;
+        try
+        {
+            category = categoryDao.getById(id);
+
         }
-        return null;
+        catch(Exception ex)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"not working");
+        }
+
+        if(category == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        return category;
     }
 
 
@@ -74,8 +79,10 @@ public class CategoriesController
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    public Category addCategory(@RequestBody Category category) {
-        try {
+    public Category addCategory(@RequestBody Category category)
+    {
+        try
+        {
             return categoryDao.create(category);
         }
         catch(Exception ex)
