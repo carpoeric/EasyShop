@@ -32,25 +32,20 @@ public class CategoriesController
 
     @GetMapping
     @PreAuthorize("permitAll()")
-    public List<Category> getAll()
-    {
+    public List<Category> getAll(){
         return categoryDao.getAllCategories();
     }
 
 
     @GetMapping("{id}")
     @PreAuthorize("permitAll()")
-    public Category getById(@PathVariable int id)
-    {
+    public Category getById(@PathVariable int id) {
 
         Category category = null;
-        try
-        {
+        try{
             category = categoryDao.getById(id);
 
-        }
-        catch(Exception ex)
-        {
+        }catch(Exception ex){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"not working");
         }
 
@@ -79,10 +74,8 @@ public class CategoriesController
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    public Category addCategory(@RequestBody Category category)
-    {
-        try
-        {
+    public Category addCategory(@RequestBody Category category) {
+        try {
             return categoryDao.create(category);
         }
         catch(Exception ex)

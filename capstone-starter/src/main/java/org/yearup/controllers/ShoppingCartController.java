@@ -51,7 +51,6 @@ public class ShoppingCartController
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
